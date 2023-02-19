@@ -14,10 +14,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Recycling" component={RecyclingScreen} />
-        <Tab.Screen name="Food" component={FoodScreen} />
-        <Tab.Screen name="Bicycling" component={BicyclingScreen} />
+        <Tab.Screen name="HomeScreen" component={HomeScreen} />
+        <Tab.Screen name="RecyclingScreen" component={RecyclingScreen} />
+        <Tab.Screen name="FoodScreen" component={FoodScreen} />
+        <Tab.Screen name="BicyclingScreen" component={BicyclingScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

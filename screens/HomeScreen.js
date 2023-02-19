@@ -1,26 +1,24 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
-// import Carousel from "react-native-snap-carousel";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import Swiper from "react-native-swiper";
 
-const HomeScreen = () => {
-  //   const carouselData = [
-  //     {
-  //       image: require("../assets/restaurant.png"),
-  //       targetScreen: "RestaurantScreen",
-  //     },
-  //     {
-  //       image: require("../assets/hki.png"),
-  //       targetScreen: "RestaurantScreen",
-  //     },
-  //     {
-  //       image: require("../assets/bicycle.png"),
-  //       targetScreen: "RestaurantScreen",
-  //     },
-  //     {
-  //       image: require("../assets/thrift.png"),
-  //       targetScreen: "RestaurantScreen",
-  //     },
-  //   ];
+const HomeScreen = ({ navigation }) => {
+  const images = [
+    { uri: require("../assets/hki.png"), title: "green in hki" },
+    {
+      uri: require("../assets/bicycle.png"),
+      title: "Bicycling in Helsinki",
+      screen: "BicyclingScreen",
+    },
+    {
+      uri: require("../assets/restaurant.jpg"),
+      title: "delicious vege restaurants in hki",
+      screen: "FoodScreen",
+    },
+  ];
+  const handleImagePress = (screen) => {
+    navigation.navigate(screen);
+  };
 
   return (
     <View style={styles.container}>
@@ -35,6 +33,24 @@ const HomeScreen = () => {
       <View style={styles.subtitleContainer}>
         <Text style={styles.subtitle}>Discover eco-friendly and</Text>
         <Text style={styles.subtitle}>sustainable places in Helsinki</Text>
+      </View>
+
+      <View style={styles.swiperContainer}>
+        <View style={styles.swiperContent}>
+          <Swiper style={styles.swiper} autoplay={true}>
+            {images.map((image, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => handleImagePress(image.screen)}
+              >
+                <Image source={image.uri} style={styles.image} />
+                <View style={styles.imageTitle}>
+                  <Text style={styles.imageTitleText}>{image.title}</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </Swiper>
+        </View>
       </View>
     </View>
   );
@@ -52,13 +68,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginBottom: 10,
+    marginTop: 10,
   },
-  subtitleContainer: {
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
-    borderRadius: 10,
-    padding: 10,
-  },
-
   title: {
     fontSize: 30,
     fontWeight: "bold",
@@ -68,13 +79,65 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1,
   },
-
+  subtitleContainer: {
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 20,
+  },
   subtitle: {
     paddingHorizontal: 15,
     fontSize: 18,
     textAlign: "center",
     fontWeight: "bold",
   },
+
+  swiperContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  swiperContent: {
+    flex: 1,
+    justifyContent: "center",
+    width: "90%",
+    marginLeft: 70,
+  },
+
+  swiper: {
+    marginTop: 150,
+    height: 200,
+  },
+  image: {
+    width: "80%",
+    height: "80%",
+    resizeMode: "cover",
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: "#fff",
+    shadowOffset: { width: 5, height: 5 },
+    shadowColor: "white",
+    shadowOpacity: 0.9,
+    shadowRadius: 20,
+    elevation: 20,
+  },
+  imageTitle: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "white",
+    padding: 10,
+    marginBottom: 120,
+    width: "80%",
+  },
+  imageTitleText: {
+    color: "green",
+    fontWeight: "bold",
+    fontSize: 16,
+    textAlign: "center",
+  },
+
   backgroundImage: {
     position: "absolute",
     resizeMode: "cover",
@@ -84,7 +147,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    opacity: 0.8,
+    opacity: 1,
   },
 });
 
