@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, Text, View } from "react-native";
-
+import {
+  FlatList,
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 const FoodScreen = () => {
   const [restaurantList, setRestaurantList] = useState([]);
-
+  const navigation = useNavigation();
   useEffect(() => {
     fetch(
       "https://www.hel.fi/palvelukarttaws/rest/v4/unit/?service=RAVINTOLA&search=vegan&language=en"
@@ -15,16 +21,23 @@ const FoodScreen = () => {
         );
         console.log(data);
         setRestaurantList(filteredData);
-        // setRestaurantList(data);
       });
   }, []);
 
+  const handleItemPress = (item) => {
+    navigation.navigate("MapScreen", { item });
+  };
+
   const renderItem = ({ item }) => {
     return (
-      <View style={{ padding: 16 }}>
-        <Text style={{ fontWeight: "bold" }}>{item.name_fi}</Text>
-        <Text>{item.desc_en}</Text>
-      </View>
+      <TouchableOpacity onPress={() => handleItemPress(item)}>
+        <View style={styles.listItem}>
+          <Text style={styles.title}>{item.name_fi}</Text>
+          <Text style={styles.address}>
+            {item.street_address_fi}, {item.address_zip}
+          </Text>
+        </View>
+      </TouchableOpacity>
     );
   };
 
@@ -39,4 +52,34 @@ const FoodScreen = () => {
   );
 };
 
+const styles = StyleSheet.create({
+  listItem: {
+    padding: 16,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: "black",
+    borderWidth: 1,
+    backgroundColor: "green",
+    marginVertical: 8,
+    marginHorizontal: 16,
+    borderRadius: 14,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
+    textShadowColor: "black",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 2,
+  },
+  address: {
+    fontSize: 14,
+    color: "white",
+    textShadowColor: "black",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 5,
+    fontWeight: "bold",
+    paddingTop: 5,
+  },
+});
 export default FoodScreen;

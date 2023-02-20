@@ -8,6 +8,7 @@ const MapScreen = ({ route }) => {
   const { item } = route.params;
   console.log(item);
   console.log(item.name_fi);
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -18,6 +19,8 @@ const MapScreen = ({ route }) => {
             {item.street_address_fi}, {item.address_city_fi}
           </Text>
         )}
+
+        {item.desc_en && <Text> {item.desc_en} </Text>}
       </View>
       {item.latitude && item.longitude && (
         <MapView

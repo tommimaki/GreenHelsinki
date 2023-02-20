@@ -9,15 +9,44 @@ import RecyclingScreen from "./screens/RecyclingScreen";
 import FoodScreen from "./screens/FoodScreen";
 import BicyclingScreen from "./screens/BicyclingScreen";
 import MapScreen from "./screens/MapScreen";
+import RentalBikeScreen from "./screens/RentalBikeScreen";
+import RoutePlanScreen from "./screens/RoutePlanScreen";
+
+// const StackNav = () => {
+//   return (
+//     <Stack.Navigator>
+//       <Stack.Screen name="RecyclingScreen" component={RecyclingScreen} />
+//       <Stack.Screen name="MapScreen" component={MapScreen} />
+//       <Stack.Screen name="RentalBikeScreen" component={RentalBikeScreen} />
+//       <Stack.Screen name="RoutePlanScreen" component={RoutePlanScreen} />
+//     </Stack.Navigator>
+//   );
+// };
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const StackNav = () => {
+const RecycleStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="RecyclingScreen" component={RecyclingScreen} />
       <Stack.Screen name="MapScreen" component={MapScreen} />
+    </Stack.Navigator>
+  );
+};
+const FoodStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="FoodScreen" component={FoodScreen} />
+      <Stack.Screen name="MapScreen" component={MapScreen} />
+    </Stack.Navigator>
+  );
+};
+const BikeStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="BicyclingScreen" component={BicyclingScreen} />
+      <Stack.Screen name="RentalBikeScreen" component={RentalBikeScreen} />
     </Stack.Navigator>
   );
 };
@@ -28,11 +57,19 @@ export default function App() {
         <Tab.Screen name="HomeScreen" component={HomeScreen} />
         <Tab.Screen
           name="RecyclingScreen"
-          component={StackNav}
+          component={RecycleStack}
           options={{ headerShown: false }}
         />
-        <Tab.Screen name="FoodScreen" component={FoodScreen} />
-        <Tab.Screen name="BicyclingScreen" component={BicyclingScreen} />
+        <Tab.Screen
+          name="FoodScreen"
+          options={{ headerShown: false }}
+          component={FoodStack}
+        />
+        <Tab.Screen
+          name="BicyclingScreen"
+          component={BikeStack}
+          options={{ headerShown: false }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

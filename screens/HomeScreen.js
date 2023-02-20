@@ -36,7 +36,9 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.subtitleContainer}>
         <Text style={styles.subtitle}>Discover eco-friendly and</Text>
-        <Text style={styles.subtitle}>sustainable places in Helsinki</Text>
+        <Text style={styles.subtitle}>
+          sustainable places and things to do in Helsinki
+        </Text>
       </View>
 
       <View style={styles.swiperContainer}>
@@ -68,11 +70,13 @@ const styles = StyleSheet.create({
   },
 
   titleContainer: {
-    backgroundColor: "rgba(255, 255, 255, 0.6)",
+    // backgroundColor: "rgba(60, 60, 60, 0.6)",
+    backgroundColor: "rgba(38, 64, 38, 0.7)",
     borderRadius: 10,
     padding: 10,
     marginBottom: 10,
     marginTop: 100,
+    width: "100%",
   },
   title: {
     fontSize: 30,
@@ -84,10 +88,11 @@ const styles = StyleSheet.create({
     textShadowRadius: 10,
   },
   subtitleContainer: {
-    backgroundColor: "rgba(60, 60, 60, 0.6)",
+    backgroundColor: "rgba(38, 64, 38, 0.7)",
     borderRadius: 10,
-    padding: 10,
+    padding: 5,
     marginBottom: 20,
+    width: "100%",
   },
   subtitle: {
     paddingHorizontal: 15,
@@ -134,13 +139,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "white",
+    backgroundColor: "rgba(38, 64, 38, 0.7)",
     padding: 10,
     marginBottom: 120,
     width: "80%",
   },
   imageTitleText: {
-    color: "green",
+    color: "white",
     fontWeight: "bold",
     fontSize: 16,
     textAlign: "center",

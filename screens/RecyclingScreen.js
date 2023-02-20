@@ -30,14 +30,12 @@ const RecyclingScreen = () => {
   };
 
   const renderItem = ({ item }) => {
-    const { name_fi, street_address_fi, address_zip } = item;
-
     return (
       <TouchableOpacity onPress={() => handleItemPress(item)}>
         <View style={styles.item}>
-          <Text style={styles.title}>{name_fi}</Text>
+          <Text style={styles.title}>{item.name_fi}</Text>
           <Text style={styles.address}>
-            {street_address_fi}, {address_zip}
+            {item.street_address_fi}, {item.address_zip}
           </Text>
         </View>
       </TouchableOpacity>
@@ -74,9 +72,10 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
+    borderRadius: 15,
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
     color: "white",
     textShadowColor: "black",
@@ -85,10 +84,12 @@ const styles = StyleSheet.create({
   },
   address: {
     fontSize: 14,
+    fontWeight: "bold",
     color: "white",
     textShadowColor: "black",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 5,
+    paddingTop: 5,
   },
 });
 

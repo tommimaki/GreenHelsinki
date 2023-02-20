@@ -1,13 +1,17 @@
-import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+
+import { useNavigation } from "@react-navigation/native";
 
 const BicyclingScreen = () => {
+  const navigation = useNavigation();
+
+  const handleNavigation = () => {
+    navigation.navigate("RentalBikeScreen");
+  };
+
   return (
     <View style={styles.container}>
-      {/* <Image
-        source={require("../assets/bicycle.jpg")}
-        style={styles.backgroundImage}
-      /> */}
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Bicycling in Helsinki</Text>
       </View>
@@ -27,6 +31,18 @@ const BicyclingScreen = () => {
           or use the city's public bike share system, which has over 2,000 bikes
           available for rent at stations throughout the city.
         </Text>
+      </View>
+
+      <View>
+        <TouchableOpacity onPress={handleNavigation}>
+          <Text>see citybike rental stations here </Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text>see citybike rental stations here </Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text>see paths here</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
