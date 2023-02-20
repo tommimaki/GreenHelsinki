@@ -1,44 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FlatList, Text, View } from "react-native";
 
 const FoodScreen = () => {
-  const data = [
-    {
-      id: "1",
-      title: "Pizza",
-      description: "Delicious pizza with tomato sauce, cheese, and toppings.",
-    },
-    {
-      id: "2",
-      title: "Hamburger",
-      description:
-        "Juicy beef patty with cheese, lettuce, tomato, and a sesame bun.",
-    },
-    {
-      id: "3",
-      title: "Sushi",
-      description:
-        "Fresh and delicious raw fish and rice rolls with soy sauce and wasabi.",
-    },
-    {
-      id: "4",
-      title: "Tacos",
-      description:
-        "Spicy and flavorful tacos with seasoned meat, lettuce, tomato, and salsa.",
-    },
-    {
-      id: "5",
-      title: "Pasta",
-      description:
-        "Classic Italian dish with noodles, tomato sauce, and meatballs.",
-    },
-  ];
+  const [restaurantList, setRestaurantList] = useState([]);
+
+  useEffect(() => {
+    fetch(
+      "https://www.hel.fi/palvelukarttaws/rest/v4/unit/?service=RAVINTOLA&search=vegan&language=en"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const filteredData = data.filter(
+          (center) => !center.name_fi.includes("koulu")
+        );
+        console.log(data);
+        setRestaurantList(filteredData);
+        // setRestaurantList(data);
+      });
+  }, []);
 
   const renderItem = ({ item }) => {
     return (
       <View style={{ padding: 16 }}>
-        <Text style={{ fontWeight: "bold" }}>{item.title}</Text>
-        <Text>{item.description}</Text>
+        <Text style={{ fontWeight: "bold" }}>{item.name_fi}</Text>
+        <Text>{item.desc_en}</Text>
       </View>
     );
   };
@@ -46,7 +31,7 @@ const FoodScreen = () => {
   return (
     <View style={{ flex: 1 }}>
       <FlatList
-        data={data}
+        data={restaurantList}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />

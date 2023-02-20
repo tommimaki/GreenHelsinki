@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 import MapView, { Marker } from "react-native-maps";
+import { useNavigation } from "@react-navigation/native";
+import { HeaderBackButton } from "@react-navigation/native-stack";
 
 const MapScreen = ({ route }) => {
   const { item } = route.params;
-
   console.log(item);
   console.log(item.name_fi);
 

@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderRadius: 20,
     borderWidth: 2,
-    borderColor: "#fff",
+    borderColor: "black",
     shadowOffset: { width: 5, height: 5 },
     shadowColor: "white",
     shadowOpacity: 0.9,
