@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import { GEOCODING_API } from "@env";
 import HomeScreen from "./screens/HomeScreen";
 import RecyclingScreen from "./screens/RecyclingScreen";
 import FoodScreen from "./screens/FoodScreen";
@@ -40,6 +40,7 @@ const BikeStack = () => {
     </Stack.Navigator>
   );
 };
+
 export default function App() {
   return (
     <NavigationContainer>
