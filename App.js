@@ -12,17 +12,6 @@ import MapScreen from "./screens/MapScreen";
 import RentalBikeScreen from "./screens/RentalBikeScreen";
 import RoutePlanScreen from "./screens/RoutePlanScreen";
 
-// const StackNav = () => {
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen name="RecyclingScreen" component={RecyclingScreen} />
-//       <Stack.Screen name="MapScreen" component={MapScreen} />
-//       <Stack.Screen name="RentalBikeScreen" component={RentalBikeScreen} />
-//       <Stack.Screen name="RoutePlanScreen" component={RoutePlanScreen} />
-//     </Stack.Navigator>
-//   );
-// };
-
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +36,7 @@ const BikeStack = () => {
     <Stack.Navigator>
       <Stack.Screen name="BicyclingScreen" component={BicyclingScreen} />
       <Stack.Screen name="RentalBikeScreen" component={RentalBikeScreen} />
+      <Stack.Screen name="RoutePlanScreen" component={RoutePlanScreen} />
     </Stack.Navigator>
   );
 };

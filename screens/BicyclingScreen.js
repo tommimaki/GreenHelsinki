@@ -9,6 +9,9 @@ const BicyclingScreen = () => {
   const handleNavigation = () => {
     navigation.navigate("RentalBikeScreen");
   };
+  const handleNavigationRoutes = () => {
+    navigation.navigate("RoutePlanScreen");
+  };
 
   return (
     <View style={styles.container}>
@@ -40,7 +43,7 @@ const BicyclingScreen = () => {
         <TouchableOpacity>
           <Text>see citybike rental stations here </Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleNavigationRoutes}>
           <Text>see paths here</Text>
         </TouchableOpacity>
       </View>

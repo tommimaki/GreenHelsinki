@@ -7,9 +7,10 @@ import {
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-const FoodScreen = () => {
+import { Stack } from "@react-navigation/native-stack";
+const FoodScreen = ({ navigation }) => {
   const [restaurantList, setRestaurantList] = useState([]);
-  const navigation = useNavigation();
+
   useEffect(() => {
     fetch(
       "https://www.hel.fi/palvelukarttaws/rest/v4/unit/?service=RAVINTOLA&search=vegan&language=en"
