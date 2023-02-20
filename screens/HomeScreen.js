@@ -4,7 +4,11 @@ import Swiper from "react-native-swiper";
 
 const HomeScreen = ({ navigation }) => {
   const images = [
-    { uri: require("../assets/hki.png"), title: "green in hki" },
+    {
+      uri: require("../assets/thrift.jpg"),
+      title: "Sustainable shopping in hki",
+      screen: "RecyclingScreen",
+    },
     {
       uri: require("../assets/bicycle.png"),
       title: "Bicycling in Helsinki",
@@ -64,23 +68,23 @@ const styles = StyleSheet.create({
   },
 
   titleContainer: {
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    backgroundColor: "rgba(255, 255, 255, 0.6)",
     borderRadius: 10,
     padding: 10,
     marginBottom: 10,
-    marginTop: 10,
+    marginTop: 100,
   },
   title: {
     fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
-    color: "green",
+    color: "white",
     textShadowColor: "black",
     textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 1,
+    textShadowRadius: 10,
   },
   subtitleContainer: {
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    backgroundColor: "rgba(60, 60, 60, 0.6)",
     borderRadius: 10,
     padding: 10,
     marginBottom: 20,
@@ -90,6 +94,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
     fontWeight: "bold",
+    color: "white",
+    textShadowColor: "black",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 10,
   },
 
   swiperContainer: {
@@ -105,7 +113,7 @@ const styles = StyleSheet.create({
   },
 
   swiper: {
-    marginTop: 150,
+    marginTop: 100,
     height: 200,
   },
   image: {
