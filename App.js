@@ -7,6 +7,7 @@ import HomeScreen from "./screens/HomeScreen";
 import RecyclingScreen from "./screens/RecyclingScreen";
 import FoodScreen from "./screens/FoodScreen";
 import BicyclingScreen from "./screens/BicyclingScreen";
+import MapScreen from "./screens/MapScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -18,6 +19,7 @@ export default function App() {
         <Tab.Screen name="RecyclingScreen" component={RecyclingScreen} />
         <Tab.Screen name="FoodScreen" component={FoodScreen} />
         <Tab.Screen name="BicyclingScreen" component={BicyclingScreen} />
+        <Tab.Screen name="MapScreen" component={MapScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

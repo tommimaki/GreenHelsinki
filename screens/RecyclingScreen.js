@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const RecyclingScreen = () => {
   const [recyclingCenters, setRecyclingCenters] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetch(
@@ -17,16 +25,22 @@ const RecyclingScreen = () => {
       });
   }, []);
 
+  const handleItemPress = (item) => {
+    navigation.navigate("MapScreen", { item });
+  };
+
   const renderItem = ({ item }) => {
     const { name_fi, street_address_fi, address_zip } = item;
 
     return (
-      <View style={styles.item}>
-        <Text style={styles.title}>{name_fi}</Text>
-        <Text style={styles.address}>
-          {street_address_fi}, {address_zip}
-        </Text>
-      </View>
+      <TouchableOpacity onPress={() => handleItemPress(item)}>
+        <View style={styles.item}>
+          <Text style={styles.title}>{name_fi}</Text>
+          <Text style={styles.address}>
+            {street_address_fi}, {address_zip}
+          </Text>
+        </View>
+      </TouchableOpacity>
     );
   };
 
