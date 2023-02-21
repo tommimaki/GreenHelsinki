@@ -6,8 +6,9 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { Stack } from "@react-navigation/native-stack";
+
+import { ListItem } from "@rneui/base";
+
 const FoodScreen = ({ navigation }) => {
   const [restaurantList, setRestaurantList] = useState([]);
 
@@ -29,16 +30,29 @@ const FoodScreen = ({ navigation }) => {
     navigation.navigate("MapScreen", { item });
   };
 
+  // const renderItem = ({ item }) => {
+  //   return (
+  //     <TouchableOpacity onPress={() => handleItemPress(item)}>
+  //       <View style={styles.listItem}>
+  //         <Text style={styles.title}>{item.name_fi}</Text>
+  //         <Text style={styles.address}>
+  //           {item.street_address_fi}, {item.address_zip}
+  //         </Text>
+  //       </View>
+  //     </TouchableOpacity>
+  //   );
+  // };
   const renderItem = ({ item }) => {
     return (
-      <TouchableOpacity onPress={() => handleItemPress(item)}>
-        <View style={styles.listItem}>
-          <Text style={styles.title}>{item.name_fi}</Text>
-          <Text style={styles.address}>
+      <ListItem bottomDivider onPress={() => handleItemPress(item)}>
+        <ListItem.Content>
+          <ListItem.Title>{item.name_fi}</ListItem.Title>
+          <ListItem.Subtitle>
             {item.street_address_fi}, {item.address_zip}
-          </Text>
-        </View>
-      </TouchableOpacity>
+            <ListItem></ListItem>
+          </ListItem.Subtitle>
+        </ListItem.Content>
+      </ListItem>
     );
   };
 

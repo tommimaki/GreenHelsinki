@@ -40,9 +40,7 @@ const BicyclingScreen = () => {
         <TouchableOpacity onPress={handleNavigation}>
           <Text>see citybike rental stations here </Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text>see citybike rental stations here </Text>
-        </TouchableOpacity>
+
         <TouchableOpacity onPress={handleNavigationRoutes}>
           <Text>see paths here</Text>
         </TouchableOpacity>
