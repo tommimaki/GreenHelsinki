@@ -9,6 +9,8 @@ import {
 } from "react-native";
 
 import { ListItem } from "@rneui/base";
+// import { useTheme } from "@rneui/themed";
+import { useTheme } from "@react-navigation/native";
 import TouchableScale from "react-native-touchable-scale";
 
 const FoodScreen = ({ navigation }) => {
@@ -41,15 +43,26 @@ const FoodScreen = ({ navigation }) => {
         friction={90}
         tension={100}
         activeScale={0.95}
-        style={styles.listItem}
+        containerStyle={{
+          // borderRadius: 10,
+          borderBottomRightRadius: 10,
+          borderTopRightRadius: 10,
+          borderLeftWidth: 3,
+          borderLeftColor: "white",
+          marginVertical: 5,
+          marginHorizontal: 5,
+          backgroundColor: "#03C03C",
+          paddingVertical: 8,
+          paddingHorizontal: 16,
+        }}
       >
-        <ListItem.Content>
+        <ListItem.Content style={{ paddingVertical: 0 }}>
           <ListItem.Title style={styles.title}>{item.name_fi}</ListItem.Title>
           <ListItem.Subtitle style={styles.address}>
-            {item.street_address_fi}, {item.address_zip}{" "}
-            <Text style={styles.see}>See on map</Text>
-            <ListItem></ListItem>
+            {item.street_address_fi}, {item.address_zip}
           </ListItem.Subtitle>
+
+          <Text style={styles.see}>See on map</Text>
         </ListItem.Content>
       </ListItem>
     );
@@ -62,6 +75,7 @@ const FoodScreen = ({ navigation }) => {
         style={styles.backgroundImage}
       />
       <FlatList
+        style={styles.FlatList}
         data={restaurantList}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
@@ -73,22 +87,40 @@ const FoodScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "lightgreen",
+  },
+  FlatList: {
+    marginTop: 100,
   },
   listItem: {
-    marginVertical: 2,
+    marginVertical: 10,
+    backgroundColor: "springgreen",
+  },
+  listItemContainer: {
+    borderRadius: 20,
+    backgroundColor: "green",
   },
   see: {
-    paddingLeft: 10,
+    alignSelf: "flex-end",
+    color: "white",
+    textShadowColor: "white",
+    textShadowRadius: 1,
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "white",
+    textShadowColor: "black",
+    textShadowOffset: { width: 1, height: 2 },
+    textShadowRadius: 11,
   },
   address: {
     fontSize: 14,
     fontWeight: "bold",
     paddingTop: 5,
+    color: "white",
+    textShadowColor: "black",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 10,
   },
   backgroundImage: {
     position: "absolute",

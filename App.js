@@ -3,6 +3,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+
 import HomeScreen from "./screens/HomeScreen";
 import RecyclingScreen from "./screens/RecyclingScreen";
 import FoodScreen from "./screens/FoodScreen";
@@ -11,39 +13,63 @@ import MapScreen from "./screens/MapScreen";
 import RentalBikeScreen from "./screens/RentalBikeScreen";
 import RoutePlanScreen from "./screens/RoutePlanScreen";
 import { Header } from "@rneui/themed";
+// import { MaterialCommunityIcons } from "react-native-vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const AppHeader = ({ navigation, previous, title }) => {
   return (
     <Header
-      backgroundColor="green"
+      backgroundColor="#03C03C"
       fontWeight="bold"
       leftComponent={
         previous
-          ? { icon: "arrow-back", onPress: () => navigation.goBack() }
+          ? {
+              icon: "arrow-back",
+              color: "#fff",
+              style: { color: "white" },
+              onPress: () => navigation.goBack(),
+            }
           : null
       }
       centerComponent={{
         text: title,
         style: { color: "white", fontSize: 20, fontWeight: "bold" },
       }}
+      style={{
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+      }}
+      containerStyle={{
+        // borderBottomWidth: 10,
+        borderRadius: 30,
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1,
+        height: 100,
+      }}
     />
   );
 };
 
-const HomeHeader = ({ navigation }) => ({
+const HomeHeader = ({ navigation, route }) => ({
   header: () => <AppHeader navigation={navigation} title="Home" />,
 });
 
 const HomeStack = () => {
-  <Stack.Navigator>
-    <Stack.Screen
-      name="HomeScreen"
-      component={HomeScreen}
-      options={({ navigation, route }) => HomeHeader({ navigation, route })}
-    />
-  </Stack.Navigator>;
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={({ navigation, route }) => HomeHeader({ navigation, route })}
+      />
+    </Stack.Navigator>
+  );
 };
 const FoodHeader = ({ navigation }) => ({
   header: () => (
@@ -132,7 +158,10 @@ const BikeStack = () => {
 const MapHeader = ({ navigation, route }) => ({
   header: () => (
     <AppHeader
-      leftComponent={{ icon: "arrow-back", onPress: () => navigation.goBack() }}
+      leftComponent={{
+        icon: "arrow-back",
+        onPress: () => navigation.goBack(),
+      }}
       navigation={navigation}
       previous={route.name !== "FoodScreen"}
       title="Map"
@@ -143,11 +172,38 @@ const MapHeader = ({ navigation, route }) => ({
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tapBarStyle: {
+            height: 150,
+            backgroundColor: "green",
+            borderRadius: 20,
+          },
+          style: { backgroundColor: "green" },
+          tabBarActiveTintColor: "green",
+          tabBarInactiveTintColor: "gray",
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === "HomeScreen") {
+              iconName = focused ? "home" : "home-outline";
+            } else if (route.name === "RecyclingScreen") {
+              iconName = focused ? "cart" : "cart-outline";
+            } else if (route.name === "FoodScreen") {
+              iconName = focused ? "fast-food" : "fast-food-outline";
+            } else if (route.name === "BicyclingScreen") {
+              iconName = focused ? "bicycle" : "bicycle-outline";
+            }
+
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+      >
         <Tab.Screen
           name="HomeScreen"
           options={{ headerShown: false }}
-          component={HomeScreen}
+          component={HomeStack}
         />
         <Tab.Screen
           name="RecyclingScreen"
@@ -172,13 +228,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-    backgroundColor: "#fff",
+    backgroundColor: "#green",
     alignItems: "center",
     justifyContent: "center",
-  },
-  header: {
-    backgroundColor: "green",
-    color: "green",
   },
 });
