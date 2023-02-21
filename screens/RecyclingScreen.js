@@ -9,6 +9,9 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+import { ListItem } from "@rneui/base";
+import TouchableScale from "react-native-touchable-scale";
+
 const RecyclingScreen = () => {
   const [recyclingCenters, setRecyclingCenters] = useState([]);
   const navigation = useNavigation();
@@ -32,14 +35,23 @@ const RecyclingScreen = () => {
 
   const renderItem = ({ item }) => {
     return (
-      <TouchableOpacity onPress={() => handleItemPress(item)}>
-        <View style={styles.item}>
-          <Text style={styles.title}>{item.name_fi}</Text>
-          <Text style={styles.address}>
+      <ListItem
+        onPress={() => handleItemPress(item)}
+        Component={TouchableScale}
+        friction={90}
+        tension={100}
+        activeScale={0.95}
+        containerStyle={styles.containerStyle}
+      >
+        <ListItem.Content style={{ paddingVertical: 0 }}>
+          <ListItem.Title style={styles.title}>{item.name_fi}</ListItem.Title>
+          <ListItem.Subtitle style={styles.address}>
             {item.street_address_fi}, {item.address_zip}
-          </Text>
-        </View>
-      </TouchableOpacity>
+          </ListItem.Subtitle>
+
+          <Text style={styles.see}>See on map</Text>
+        </ListItem.Content>
+      </ListItem>
     );
   };
 
@@ -49,12 +61,16 @@ const RecyclingScreen = () => {
         source={require("../assets/bg.jpeg")}
         style={styles.backgroundImage}
       />
-      <Text style={styles.heading}>Find Recycled Gems Here</Text>
-      <FlatList
-        data={recyclingCenters}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
+      <View style={styles.content}>
+        <View style={styles.headingcontainer}>
+          <Text style={styles.heading}>Find Recycled Gems Here</Text>
+        </View>
+        <FlatList
+          data={recyclingCenters}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
     </View>
   );
 };
@@ -62,39 +78,62 @@ const RecyclingScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+  },
+  content: {
+    marginTop: 100,
+  },
+  headingcontainer: {
+    marginVertical: 10,
+    backgroundColor: "rgba(3, 192, 60, 0.7)",
+    width: "80%",
+    alignSelf: "center",
+    elevation: 10, // add box shadow
+    shadowColor: "black", // add box shadow
+    shadowOffset: { width: 10, height: 7 }, // add box shadow
+    shadowOpacity: 0.9, // add box shadow
+    shadowRadius: 5, // add box shadow
+    borderRadius: 20,
+    padding: 5,
+    borderColor: "white",
+    borderBottomWidth: 2,
+    borderRightWidth: 2,
   },
   heading: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 10,
     color: "white",
+    fontSize: 30,
+    alignSelf: "center",
+    fontWeight: "bold",
+    marginBottom: 20,
+    marginTop: 20,
+    textShadowColor: "black",
+    textShadowOffset: { width: 5, height: 3 },
+    textShadowRadius: 4,
   },
-  item: {
-    backgroundColor: "green",
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderRadius: 15,
+  FlatList: {
+    marginTop: 110,
+  },
+  see: {
+    alignSelf: "flex-end",
+    color: "white",
+    textShadowColor: "white",
+    textShadowRadius: 1,
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
     color: "white",
     textShadowColor: "black",
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 2,
+    textShadowOffset: { width: 1, height: 2 },
+    textShadowRadius: 11,
   },
   address: {
     fontSize: 14,
     fontWeight: "bold",
+    paddingTop: 5,
     color: "white",
     textShadowColor: "black",
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 5,
-    paddingTop: 5,
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 10,
   },
   backgroundImage: {
     position: "absolute",
@@ -106,6 +145,27 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     opacity: 1,
+  },
+  containerStyle: {
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderLeftWidth: 3,
+    borderBottomWidth: 1,
+    borderLeftColor: "white",
+    borderBottomColor: "white",
+    marginVertical: 5,
+    marginHorizontal: 5,
+    backgroundColor: "#03C03C",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    elevation: 10, // add box shadow
+    shadowColor: "black", // add box shadow
+    shadowOffset: { width: 10, height: 5 }, // add box shadow
+    shadowOpacity: 0.7, // add box shadow
+    shadowRadius: 3.9, // add box shadow
+    width: "95%",
+    alignSelf: "center",
   },
 });
 

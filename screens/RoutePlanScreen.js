@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { View } from "react-native";
-import MapView, { Polyline } from "react-native-maps";
+import React, { useState, useEffect, useRef } from "react";
+import { View, StyleSheet, Text, Animated } from "react-native";
+import MapView, { Polyline, Marker } from "react-native-maps";
 import { decode } from "@mapbox/polyline";
 import { Input, Button } from "@rneui/base";
 import { GEOCODING_API } from "@env";
@@ -11,6 +11,9 @@ const RoutePlanScreen = () => {
   const [fromLocation, setFromLocation] = useState(null);
   const [toLocation, setToLocation] = useState(null);
   const [error, setError] = useState(null);
+  const opacityValue = useRef(new Animated.Value(0)).current;
+  const [animationTo, setAnimationTo] = useState("");
+  const [animationFrom, setAnimationFrom] = useState("");
 
   // haetaan geolocation data
   const geocode = (address) => {
@@ -39,6 +42,8 @@ const RoutePlanScreen = () => {
     const toLocationData = await geocode(endLocation);
     setFromLocation(fromLocationData);
     setToLocation(toLocationData);
+    setAnimationTo(startLocation);
+    setAnimationFrom(endLocation);
     setStartLocation("");
     setEndLocation("");
   };
@@ -97,6 +102,11 @@ const RoutePlanScreen = () => {
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
+        const itinerary = json.data.plan.itineraries[0];
+        const legs = itinerary.legs;
+        const distance = legs.reduce((sum, leg) => sum + leg.distance, 0);
+        console.log(`Total distance: ${distance} meters`);
+
         const legGeometry = json.data.plan.itineraries[0].legs[0].legGeometry;
         console.log(legGeometry);
         const points = legGeometry.points;
@@ -104,7 +114,6 @@ const RoutePlanScreen = () => {
           latitude: point[0],
           longitude: point[1],
         }));
-        console.log(coordinates);
         setRouteCoordinates(coordinates);
       })
       .catch((error) => {
@@ -118,22 +127,48 @@ const RoutePlanScreen = () => {
     }
   }, [fromLocation, toLocation]);
 
+  //animaatio matkatiedoille
+  const fadeIn = () => {
+    Animated.timing(opacityValue, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  };
+  useEffect(() => {
+    if (routeCoordinates.length > 0) {
+      fadeIn();
+    }
+  }, [routeCoordinates]);
+
   return (
     <View style={{ flex: 1 }}>
-      <Input
-        style={{ flex: 1, borderWidth: 1, margin: 10, padding: 5 }}
-        placeholder="Start location"
-        value={startLocation}
-        onChangeText={setStartLocation}
-      />
-      <Input
-        style={{ flex: 1, borderWidth: 1, margin: 10, padding: 5 }}
-        placeholder="End location"
-        value={endLocation}
-        onChangeText={setEndLocation}
+      <View style={styles.inputs}>
+        <Input
+          style={{ flex: 1, borderWidth: 1, margin: 10, padding: 5 }}
+          placeholder="Start location"
+          value={startLocation}
+          onChangeText={setStartLocation}
+        />
+        <Input
+          style={{ flex: 1, borderWidth: 1, margin: 10, padding: 5 }}
+          placeholder="End location"
+          value={endLocation}
+          onChangeText={setEndLocation}
+        />
+      </View>
+      <Button
+        title="Search"
+        buttonStyle={{ backgroundColor: "#03C03C" }}
+        onPress={handleSearch}
       />
 
-      <Button title="Search" onPress={handleSearch} />
+      <Animated.View style={[styles.tripInfo, { opacity: opacityValue }]}>
+        <Text>
+          {`Journey from ${animationFrom} to ${animationTo}\n`}
+          {`Distance: ${routeCoordinates.length / 100} km`}
+        </Text>
+      </Animated.View>
 
       <MapView
         style={{ flex: 1 }}
@@ -144,6 +179,10 @@ const RoutePlanScreen = () => {
           longitudeDelta: 0.05,
         }}
       >
+        {toLocation && <Marker coordinate={toLocation} title="End location" />}
+        {fromLocation && (
+          <Marker coordinate={fromLocation} title="Start location" />
+        )}
         {routeCoordinates.length > 0 && (
           <Polyline
             coordinates={routeCoordinates}
@@ -156,4 +195,15 @@ const RoutePlanScreen = () => {
   );
 };
 
+const styles = StyleSheet.create({
+  inputs: {
+    marginTop: 120,
+    flexDirection: "row",
+    width: 200,
+  },
+  tripInfo: {
+    backgroundColor: "green",
+    height: 100,
+  },
+});
 export default RoutePlanScreen;

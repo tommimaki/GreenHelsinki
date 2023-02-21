@@ -16,7 +16,8 @@ import { Header } from "@rneui/themed";
 // import { MaterialCommunityIcons } from "react-native-vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-const Tab = createBottomTabNavigator();
+// const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const AppHeader = ({ navigation, previous, title }) => {
@@ -29,7 +30,7 @@ const AppHeader = ({ navigation, previous, title }) => {
           ? {
               icon: "arrow-back",
               color: "#fff",
-              style: { color: "white" },
+              style: { color: "white", paddingLeft: 15, paddingBottom: 5 },
               onPress: () => navigation.goBack(),
             }
           : null
@@ -39,11 +40,10 @@ const AppHeader = ({ navigation, previous, title }) => {
         style: { color: "white", fontSize: 20, fontWeight: "bold" },
       }}
       style={{
-        borderBottomLeftRadius: 10,
-        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 50,
+        borderBottomRightRadius: 20,
       }}
       containerStyle={{
-        // borderBottomWidth: 10,
         borderRadius: 30,
         position: "absolute",
         top: 0,
@@ -51,6 +51,12 @@ const AppHeader = ({ navigation, previous, title }) => {
         right: 0,
         zIndex: 1,
         height: 100,
+        paddingBottom: 5,
+        elevation: 10, // add box shadow
+        shadowColor: "black", // add box shadow
+        shadowOffset: { width: 0, height: 2 }, // add box shadow
+        shadowOpacity: 0.7, // add box shadow
+        shadowRadius: 3.9, // add box shadow
       }}
     />
   );
@@ -173,18 +179,16 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
+        barStyle={{
+          backgroundColor: "#03C03C",
+          borderWidth: 1,
+          borderColor: "white",
+        }}
+        inactiveColor="white"
+        activeColor="green"
         screenOptions={({ route }) => ({
-          tapBarStyle: {
-            height: 150,
-            backgroundColor: "green",
-            borderRadius: 20,
-          },
-          style: { backgroundColor: "green" },
-          tabBarActiveTintColor: "green",
-          tabBarInactiveTintColor: "gray",
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
-
             if (route.name === "HomeScreen") {
               iconName = focused ? "home" : "home-outline";
             } else if (route.name === "RecyclingScreen") {
@@ -196,7 +200,7 @@ export default function App() {
             }
 
             // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
+            return <Ionicons name={iconName} size={30} color={color} />;
           },
         })}
       >
@@ -208,17 +212,17 @@ export default function App() {
         <Tab.Screen
           name="RecyclingScreen"
           component={RecycleStack}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, tabBarLabel: "Thrift Stores" }}
         />
         <Tab.Screen
           name="FoodScreen"
-          options={{ headerShown: false }}
+          options={{ headerShown: false, tabBarLabel: "Restaurants" }}
           component={FoodStack}
         />
         <Tab.Screen
           name="BicyclingScreen"
           component={BikeStack}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, tabBarLabel: "Bicycling" }}
         />
       </Tab.Navigator>
     </NavigationContainer>

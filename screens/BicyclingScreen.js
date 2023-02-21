@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -15,6 +16,10 @@ const BicyclingScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../assets/bg2.jpeg")}
+        style={styles.backgroundImage}
+      />
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Bicycling in Helsinki</Text>
       </View>
@@ -37,12 +42,23 @@ const BicyclingScreen = () => {
       </View>
 
       <View>
-        <TouchableOpacity onPress={handleNavigation}>
-          <Text>see citybike rental stations here </Text>
+        <TouchableOpacity style={styles.opacity} onPress={handleNavigation}>
+          <View style={styles.rowContainer}>
+            <Text style={styles.opacityText}>
+              Citybike rental station locations{" "}
+            </Text>
+            <Icon name="bicycle" size={30} color="white" />
+          </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={handleNavigationRoutes}>
-          <Text>see paths here</Text>
+        <TouchableOpacity
+          style={styles.opacity}
+          onPress={handleNavigationRoutes}
+        >
+          <View style={styles.rowContainer}>
+            <Text style={styles.opacityText}>Search for paths here</Text>
+            <Icon name="map-signs" size={30} color="white" />
+          </View>
         </TouchableOpacity>
       </View>
     </View>
@@ -55,8 +71,38 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  opacity: {
+    backgroundColor: "#03C03C",
+    width: 400,
+    height: 120,
+    borderRadius: 20,
+    padding: 20,
+    marginVertical: 10,
+    shadowColor: "black", // add box shadow
+    shadowOffset: { width: 10, height: 7 }, // add box shadow
+    shadowOpacity: 0.9, // add box shadow
+    shadowRadius: 5, // add box shadow
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "white",
+    // alignItems: "center",
+  },
+  opacityText: {
+    fontSize: 20,
+    color: "white",
+    fontWeight: "700",
+    textShadowColor: "black",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 10,
+  },
+  rowContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
 
   titleContainer: {
+    marginTop: 120,
     backgroundColor: "rgba(255, 255, 255, 0.8)",
     borderRadius: 10,
     padding: 10,
