@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, Image } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import { HeaderBackButton } from "@react-navigation/native-stack";
@@ -12,6 +12,10 @@ const MapScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../assets/bg.jpeg")}
+        style={styles.backgroundImage}
+      />
       <View style={styles.infoContainer}>
         {item.name_fi && <Text style={styles.title}>{item.name_fi}</Text>}
         {item.street_address_fi && item.address_city_fi && (
@@ -68,6 +72,17 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: 400,
+  },
+  backgroundImage: {
+    position: "absolute",
+    resizeMode: "cover",
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 1,
   },
 });
 

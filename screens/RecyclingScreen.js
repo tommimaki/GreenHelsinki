@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -44,6 +45,10 @@ const RecyclingScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../assets/bg.jpeg")}
+        style={styles.backgroundImage}
+      />
       <Text style={styles.heading}>Find Recycled Gems Here</Text>
       <FlatList
         data={recyclingCenters}
@@ -60,12 +65,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
   },
   heading: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 10,
+    color: "white",
   },
   item: {
     backgroundColor: "green",
@@ -90,6 +95,17 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 5,
     paddingTop: 5,
+  },
+  backgroundImage: {
+    position: "absolute",
+    resizeMode: "cover",
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 1,
   },
 });
 

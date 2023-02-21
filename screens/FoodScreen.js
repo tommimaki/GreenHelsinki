@@ -5,9 +5,11 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  Image,
 } from "react-native";
 
 import { ListItem } from "@rneui/base";
+import TouchableScale from "react-native-touchable-scale";
 
 const FoodScreen = ({ navigation }) => {
   const [restaurantList, setRestaurantList] = useState([]);
@@ -30,25 +32,22 @@ const FoodScreen = ({ navigation }) => {
     navigation.navigate("MapScreen", { item });
   };
 
-  // const renderItem = ({ item }) => {
-  //   return (
-  //     <TouchableOpacity onPress={() => handleItemPress(item)}>
-  //       <View style={styles.listItem}>
-  //         <Text style={styles.title}>{item.name_fi}</Text>
-  //         <Text style={styles.address}>
-  //           {item.street_address_fi}, {item.address_zip}
-  //         </Text>
-  //       </View>
-  //     </TouchableOpacity>
-  //   );
-  // };
   const renderItem = ({ item }) => {
     return (
-      <ListItem bottomDivider onPress={() => handleItemPress(item)}>
+      <ListItem
+        bottomDivider
+        onPress={() => handleItemPress(item)}
+        Component={TouchableScale}
+        friction={90}
+        tension={100}
+        activeScale={0.95}
+        style={styles.listItem}
+      >
         <ListItem.Content>
-          <ListItem.Title>{item.name_fi}</ListItem.Title>
-          <ListItem.Subtitle>
-            {item.street_address_fi}, {item.address_zip}
+          <ListItem.Title style={styles.title}>{item.name_fi}</ListItem.Title>
+          <ListItem.Subtitle style={styles.address}>
+            {item.street_address_fi}, {item.address_zip}{" "}
+            <Text style={styles.see}>See on map</Text>
             <ListItem></ListItem>
           </ListItem.Subtitle>
         </ListItem.Content>
@@ -57,7 +56,11 @@ const FoodScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
+      <Image
+        source={require("../assets/bg.jpeg")}
+        style={styles.backgroundImage}
+      />
       <FlatList
         data={restaurantList}
         renderItem={renderItem}
@@ -68,33 +71,35 @@ const FoodScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "lightgreen",
+  },
   listItem: {
-    padding: 16,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: "black",
-    borderWidth: 1,
-    backgroundColor: "green",
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderRadius: 14,
+    marginVertical: 2,
+  },
+  see: {
+    paddingLeft: 10,
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "white",
-    textShadowColor: "black",
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 2,
   },
   address: {
     fontSize: 14,
-    color: "white",
-    textShadowColor: "black",
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 5,
     fontWeight: "bold",
     paddingTop: 5,
+  },
+  backgroundImage: {
+    position: "absolute",
+    resizeMode: "cover",
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 1,
   },
 });
 export default FoodScreen;

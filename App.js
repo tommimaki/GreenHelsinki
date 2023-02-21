@@ -17,12 +17,17 @@ const Stack = createNativeStackNavigator();
 const AppHeader = ({ navigation, previous, title }) => {
   return (
     <Header
+      backgroundColor="green"
+      fontWeight="bold"
       leftComponent={
         previous
           ? { icon: "arrow-back", onPress: () => navigation.goBack() }
           : null
       }
-      centerComponent={{ text: title, style: { color: "#fff" } }}
+      centerComponent={{
+        text: title,
+        style: { color: "white", fontSize: 20, fontWeight: "bold" },
+      }}
     />
   );
 };
@@ -41,7 +46,9 @@ const HomeStack = () => {
   </Stack.Navigator>;
 };
 const FoodHeader = ({ navigation }) => ({
-  header: () => <AppHeader navigation={navigation} title="Food" />,
+  header: () => (
+    <AppHeader navigation={navigation} title="Food" style={styles.header} />
+  ),
 });
 
 const FoodStack = () => {
@@ -165,8 +172,13 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  header: {
+    backgroundColor: "green",
+    color: "green",
   },
 });
