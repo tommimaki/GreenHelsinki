@@ -14,6 +14,7 @@ import MapScreen from "../screens/MapScreen";
 import RentalBikeScreen from "../screens/RentalBikeScreen";
 import RoutePlanScreen from "../screens/RoutePlanScreen";
 import AppHeader from "../components/AppHeader";
+import ProfileScreen from "../screens/ProfileScreen";
 // import { MaterialCommunityIcons } from "react-native-vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
@@ -22,7 +23,17 @@ const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const HomeHeader = ({ navigation, route }) => ({
-  header: () => <AppHeader navigation={navigation} title="Home" />,
+  header: () => (
+    <AppHeader
+      navigation={navigation}
+      title="Home"
+      rightComponent={{
+        icon: "person-circle-outline",
+        color: "#fff",
+        onPress: () => navigation.navigate("Profile"),
+      }}
+    />
+  ),
 });
 
 const HomeStack = () => {
@@ -120,6 +131,17 @@ const BikeStack = () => {
     </Stack.Navigator>
   );
 };
+const ProfileStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ title: "Profile" }}
+      />
+    </Stack.Navigator>
+  );
+};
 const MapHeader = ({ navigation, route }) => ({
   header: () => (
     <AppHeader
@@ -133,6 +155,23 @@ const MapHeader = ({ navigation, route }) => ({
     />
   ),
 });
+
+export const RootStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={HomeStack}
+        options={{ header: () => <AppHeader title="Home" /> }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileStack}
+        options={{ title: "Profile" }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 export default function Nav() {
   return (

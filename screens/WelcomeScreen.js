@@ -1,37 +1,71 @@
+import { Input } from "@rneui/base";
 import React from "react";
-import { Text, Pressable, Image, View } from "react-native";
+import { Text, View, TextInput } from "react-native";
+import { Button } from "react-native-paper";
+
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, app } from "../firebase/firebase";
 
 function WelcomeScreen({ navigation }) {
+  const [value, setValue] = React.useState({
+    email: "",
+    password: "",
+  });
+
+  function signUp() {
+    if (value.email === "" || value.password === "") {
+      setValue({
+        ...value,
+        error: "Email and password are mandatory.",
+      });
+      return;
+    }
+  }
+  function create() {
+    createUserWithEmailAndPassword(auth, value.email, value.password);
+    console.log(auth);
+  }
+
+  console.log(value);
   return (
     <View className="w-full h-full">
-      <View className="mx-4 h-full flex justify-center align-center space-y-6">
-        <View></View>
-        <Text className="text-blue text-2xl font-bold text-center mx-6">
-          Keep all you client conversations in one place
-        </Text>
-        <Text className="text-white text-base text-center mx-4">
-          At legal call we allow you to contact your clients through voice and
-          text without giving out your phone number
-        </Text>
-        <View>
-          <Pressable className="bg-blue  rounded-3xl py-2 px-4 m-4">
-            <Text
-              className="text-center text-white font-bold text-base"
-              onPress={() => navigation.navigate("Sign In")}
-            >
-              Sign In
-            </Text>
-          </Pressable>
-          <Pressable className="bg-blue rounded-3xl py-2 px-4 m-4">
-            <Text
-              className="text-center text-white font-bold text-base"
-              onPress={() => navigation.navigate("Sign Up")}
-            >
-              Sign Up
-            </Text>
-          </Pressable>
-        </View>
+      <View>
+        <Text> welcome</Text>
       </View>
+
+      <View>
+        <Text>Signup</Text>
+        <TextInput
+          placeholder="Email"
+          value={value.email}
+          onChangeText={(text) => setValue({ ...value, email: text })}
+        />
+        <TextInput
+          placeholder="Password"
+          onChangeText={(text) => setValue({ ...value, password: text })}
+          secureTextEntry={true}
+        />
+
+        <Button onPress={create}> signup</Button>
+      </View>
+      <Text className="text-center text-white font-main text-base">
+        Have an account?{" "}
+        <Text
+          className="text-blue"
+          onPress={() => navigation.navigate("Sign In")}
+        >
+          Sign In
+        </Text>
+      </Text>
+      <Text className="text-center text-white font-main text-base">
+        New here?{" "}
+        <Text
+          className="text-blue"
+          onPress={() => navigation.navigate("Sign Up")}
+        >
+          Sign up here!
+        </Text>
+      </Text>
     </View>
   );
 }

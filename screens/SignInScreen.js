@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import {
   Image,
@@ -9,10 +8,8 @@ import {
   Text,
   View,
 } from "react-native";
-
-import { app } from "../firebase/firebase";
+import { auth } from "../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-const auth = getAuth();
 
 function SignInScreen({ navigation }) {
   const [value, setValue] = useState({
@@ -41,53 +38,42 @@ function SignInScreen({ navigation }) {
   }
 
   return (
-    <View className="w-full h-full">
-      <View className="mx-4 h-5/6 flex justify-center align-center space-y-6">
-        <Text className="block  font-title text-2xl font-bold text-center text-white">
-          Sign In
-        </Text>
-
-        <View className="space-y-6">
-          <View className="mt-1 space-y-4">
-            <View className="flex-1 font-main flex-row justify-center align-center rounded-xl px-1 py-1 bg-gray-100">
-              <Icon style={styles.icon} name="email" size={18} color="gray" />
-              <TextInput
-                placeholder="Email"
-                value={value.email}
-                className="flex-1 pt-2.5 pr-2.5 pb-2.5 pl-0"
-                onChangeText={(text) => setValue({ ...value, email: text })}
-              />
-            </View>
-
-            <View className="flex-1 flex-row justify-center align-center rounded-xl px-1 py-1 bg-gray-100">
-              <Icon style={styles.icon} name="lock" size={18} color="gray" />
-              <TextInput
-                placeholder="Password"
-                className="flex-1 pt-2.5 pr-2.5 pb-2.5 pl-0"
-                onChangeText={(text) => setValue({ ...value, password: text })}
-                secureTextEntry={true}
-              />
-            </View>
-          </View>
-          <Pressable className="bg-background border border-white rounded-3xl py-2 px-4 m-4">
-            {/* <Text
-              className="text-center text-white font-bold text-base"
-              onPress={signIn}
-            >
-              Sign In
-            </Text> */}
-          </Pressable>
+    <View style={styles.container}>
+      <View style={styles.formContainer}>
+        <View style={styles.logoContainer}>
+          <Image source={require("../assets/leaf.png")} style={styles.logo} />
         </View>
-        <Text className="text-center text-white font-main text-base">
-          Don't Have an account?{" "}
-          <Text
-            className="text-blue"
-            onPress={() => navigation.navigate("Sign Up")}
-          >
-            Sign Up
-          </Text>
-        </Text>
+        <Text style={styles.header}>Sign In</Text>
+        <View style={styles.inputContainer}>
+          <View style={styles.input}>
+            <Icon name="email" size={18} color="#008000" />
+            <TextInput
+              placeholder="email"
+              onChangeText={(text) => setValue({ ...value, email: text })}
+            />
+          </View>
+          <View style={styles.input}>
+            <Icon name="lock" size={18} color="#008000" />
+            <TextInput
+              placeholder="Password"
+              onChangeText={(text) => setValue({ ...value, password: text })}
+              secureTextEntry={true}
+            />
+          </View>
+        </View>
+        <Pressable style={styles.button} onPress={signIn}>
+          <Text style={styles.buttonText}>Sign In</Text>
+        </Pressable>
       </View>
+      <Text style={styles.signUp}>
+        Don't have an account?{" "}
+        <Text
+          style={styles.signUpLink}
+          onPress={() => navigation.navigate("Sign Up")}
+        >
+          Sign Up
+        </Text>
+      </Text>
     </View>
   );
 }
@@ -95,16 +81,58 @@ function SignInScreen({ navigation }) {
 export default SignInScreen;
 
 const styles = StyleSheet.create({
-  icon: {
-    padding: 10,
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+  },
+  formContainer: {
+    width: "80%",
+  },
+  logoContainer: {
+    marginTop: 100,
+    alignItems: "center",
+  },
+  logo: {
+    width: 100,
+    height: 100,
+  },
+  header: {
+    fontSize: 24,
+    color: "#008000",
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  inputContainer: {
+    marginBottom: 20,
   },
   input: {
-    flex: 1,
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
-    paddingLeft: 0,
-    backgroundColor: "#fff",
-    color: "#424242",
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#008000",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+  },
+  button: {
+    backgroundColor: "#008000",
+    paddingVertical: 10,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  signUp: {
+    marginTop: 20,
+    fontSize: 16,
+  },
+  signUpLink: {
+    color: "#008000",
+    textDecorationLine: "underline",
   },
 });

@@ -2,6 +2,9 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import Swiper from "react-native-swiper";
 
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase";
+
 const HomeScreen = ({ navigation }) => {
   const images = [
     {
@@ -24,6 +27,17 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate(screen);
   };
 
+  function handleSignOut() {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        console.log("User signed out successfully");
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log("Error signing out user:", error);
+      });
+  }
   return (
     <View style={styles.container}>
       <Image
@@ -40,7 +54,9 @@ const HomeScreen = ({ navigation }) => {
           sustainable places and things to do in Helsinki
         </Text>
       </View>
-
+      <TouchableOpacity onPress={handleSignOut}>
+        <Text>signout</Text>
+      </TouchableOpacity>
       <View style={styles.swiperContainer}>
         <View style={styles.swiperContent}>
           <Swiper style={styles.swiper} autoplay={true}>

@@ -1,5 +1,6 @@
 import React from "react";
-import { Header } from "@rneui/themed";
+import { Header, Icon } from "@rneui/themed";
+import ProfileStackNavigator from "../Navigation/ProfileStack";
 
 export default function AppHeader({ navigation, previous, title }) {
   return (
@@ -20,10 +21,14 @@ export default function AppHeader({ navigation, previous, title }) {
         text: title,
         style: { color: "white", fontSize: 20, fontWeight: "bold" },
       }}
-      style={{
-        borderBottomLeftRadius: 50,
-        borderBottomRightRadius: 20,
-      }}
+      // rightComponent={
+      //   <Icon
+      //     name="person-circle-outline"
+      //     type="ionicon"
+      //     color="white"
+      //     onPress={() => navigation.navigate("ProfileScreen")}
+      //   />
+      // }
       containerStyle={{
         borderRadius: 30,
         position: "absolute",
