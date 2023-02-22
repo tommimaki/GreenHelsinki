@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   opacity: {
     backgroundColor: "#03C03C",
     width: 400,
-    height: 120,
+    height: 100,
     borderRadius: 20,
     padding: 20,
     marginVertical: 10,
@@ -103,13 +103,18 @@ const styles = StyleSheet.create({
 
   titleContainer: {
     marginTop: 120,
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    backgroundColor: "rgba(3, 192, 60, 0.7)",
     borderRadius: 10,
     padding: 10,
     marginBottom: 10,
+    elevation: 10, // add box shadow
+    shadowColor: "black", // add box shadow
+    shadowOffset: { width: 2, height: 2 }, // add box shadow
+    shadowOpacity: 0.2, // add box shadow
+    shadowRadius: 3.9, // add box shadow
   },
   contentContainer: {
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    backgroundColor: "rgba(3, 192, 60, 0.8)",
     borderRadius: 10,
     padding: 10,
     marginHorizontal: 10,
@@ -119,13 +124,19 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
-    color: "green",
+    color: "white",
+    textShadowColor: "black",
+    textShadowOffset: { width: 5, height: 3 },
+    textShadowRadius: 4,
+    textAlign: "center",
   },
 
   content: {
     fontSize: 18,
     textAlign: "left",
     marginBottom: 10,
+    color: "white",
+    fontWeight: "700",
   },
 
   backgroundImage: {

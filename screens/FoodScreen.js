@@ -15,6 +15,7 @@ import TouchableScale from "react-native-touchable-scale";
 const FoodScreen = ({ navigation }) => {
   const [restaurantList, setRestaurantList] = useState([]);
 
+  //haetaan ravintoladata
   useEffect(() => {
     fetch(
       "https://www.hel.fi/palvelukarttaws/rest/v4/unit/?service=RAVINTOLA&search=vegan&language=en"
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
   headingcontainer: {
     marginVertical: 10,
     backgroundColor: "rgba(3, 192, 60, 0.4)",
-    width: "75%",
+    width: "80%",
     alignSelf: "center",
     elevation: 10, // add box shadow
     shadowColor: "black", // add box shadow
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 10, height: 5 }, // add box shadow
     shadowOpacity: 0.7, // add box shadow
     shadowRadius: 3.9, // add box shadow
-    width: "85%",
+    width: "90%",
     alignSelf: "center",
   },
   heading: {

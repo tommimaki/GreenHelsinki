@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, StyleSheet, Text, Animated } from "react-native";
+import { View, StyleSheet, Text, Animated, Image } from "react-native";
 import MapView, { Polyline, Marker } from "react-native-maps";
 import { decode } from "@mapbox/polyline";
 import { Input, Button } from "@rneui/base";
@@ -14,6 +14,10 @@ const RoutePlanScreen = () => {
   const opacityValue = useRef(new Animated.Value(0)).current;
   const [animationTo, setAnimationTo] = useState("");
   const [animationFrom, setAnimationFrom] = useState("");
+
+  // const [inputHeights, setInputHeight] = useState(
+  //   new Animated.Value(100)
+  // ).current;
 
   // haetaan geolocation data
   const geocode = (address) => {
@@ -143,35 +147,41 @@ const RoutePlanScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.inputs}>
-        <Input
-          style={{ flex: 1, borderWidth: 1, margin: 10, padding: 5 }}
-          placeholder="Start location"
-          value={startLocation}
-          onChangeText={setStartLocation}
-        />
-        <Input
-          style={{ flex: 1, borderWidth: 1, margin: 10, padding: 5 }}
-          placeholder="End location"
-          value={endLocation}
-          onChangeText={setEndLocation}
+      <Image
+        source={require("../assets/bg2.jpeg")}
+        style={styles.backgroundImage}
+      />
+      <View style={styles.search}>
+        <View style={styles.inputs}>
+          <Input
+            style={styles.input}
+            placeholder="Start location"
+            value={startLocation}
+            onChangeText={setStartLocation}
+          />
+          <Input
+            style={styles.input}
+            placeholder="End location"
+            value={endLocation}
+            onChangeText={setEndLocation}
+          />
+        </View>
+        <Button
+          title="Search"
+          buttonStyle={styles.button}
+          onPress={handleSearch}
         />
       </View>
-      <Button
-        title="Search"
-        buttonStyle={{ backgroundColor: "#03C03C" }}
-        onPress={handleSearch}
-      />
 
       <Animated.View style={[styles.tripInfo, { opacity: opacityValue }]}>
-        <Text>
+        <Text style={styles.heading}>
           {`Journey from ${animationFrom} to ${animationTo}\n`}
           {`Distance: ${routeCoordinates.length / 100} km`}
         </Text>
       </Animated.View>
 
       <MapView
-        style={{ flex: 1 }}
+        style={{ flex: 1, borderWidth: 1, borderColor: "green" }}
         initialRegion={{
           latitude: 60.17,
           longitude: 24.94,
@@ -197,13 +207,72 @@ const RoutePlanScreen = () => {
 
 const styles = StyleSheet.create({
   inputs: {
-    marginTop: 120,
     flexDirection: "row",
     width: 200,
   },
+  input: {
+    flex: 1,
+    borderWidth: 1,
+    margin: 10,
+    padding: 5,
+    borderRadius: 20,
+    borderColor: "green",
+    backgroundColor: "white",
+  },
   tripInfo: {
-    backgroundColor: "green",
+    backgroundColor: "#03C03C",
     height: 100,
+    borderRadius: 15,
+    width: "80%",
+    alignSelf: "center",
+    marginVertical: 10,
+    borderWidth: 2,
+    borderColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 10, // add box shadow
+    shadowColor: "black", // add box shadow
+    shadowOffset: { width: 10, height: 5 }, // add box shadow
+    shadowOpacity: 0.7, // add box shadow
+    shadowRadius: 3.9, // add box shadow
+  },
+  heading: {
+    color: "white",
+    fontSize: 18,
+    alignSelf: "center",
+    fontWeight: "bold",
+    marginBottom: 20,
+    marginTop: 20,
+    textShadowColor: "black",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 4,
+    textAlign: "center",
+  },
+  search: {
+    marginTop: 120,
+    padding: 10,
+  },
+  button: {
+    backgroundColor: "#03C03C",
+    borderRadius: 20,
+    height: 50,
+    width: "80%",
+    alignSelf: "center",
+    textAlign: "center",
+
+    borderWidth: 2,
+    borderColor: "white",
+  },
+  backgroundImage: {
+    position: "absolute",
+    resizeMode: "cover",
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 1,
   },
 });
 export default RoutePlanScreen;
