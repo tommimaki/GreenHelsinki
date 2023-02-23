@@ -21,14 +21,14 @@ export default function AppHeader({ navigation, previous, title }) {
         text: title,
         style: { color: "white", fontSize: 20, fontWeight: "bold" },
       }}
-      // rightComponent={
-      //   <Icon
-      //     name="person-circle-outline"
-      //     type="ionicon"
-      //     color="white"
-      //     onPress={() => navigation.navigate("ProfileScreen")}
-      //   />
-      // }
+      rightComponent={
+        <Icon
+          name="person-circle-outline"
+          type="ionicon"
+          color="white"
+          onPress={() => navigation.navigate("ProfileScreen")}
+        />
+      }
       containerStyle={{
         borderRadius: 30,
         position: "absolute",

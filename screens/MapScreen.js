@@ -3,11 +3,20 @@ import { View, Text, StyleSheet, Button, Image } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 
+import { auth, db } from "../firebase/firebase";
+import { ref, push } from "firebase/database";
+import { FeaturedTile } from "@rneui/themed/dist/Tile";
+
 const MapScreen = ({ route }) => {
   const { item } = route.params;
-  console.log(item);
-  console.log(item.name_fi);
   const navigation = useNavigation();
+
+  const saveItemToFavorites = () => {
+    console.log("added item");
+    const user = auth.currentUser;
+    const fref = ref(db, `favorites/${user.uid}`);
+    push(fref, item);
+  };
 
   return (
     <View style={styles.container}>
@@ -25,6 +34,7 @@ const MapScreen = ({ route }) => {
         )}
 
         {item.desc_en && <Text style={styles.address}> {item.desc_en} </Text>}
+        <Button title="Add to favorites" onPress={saveItemToFavorites} />
       </View>
       {item.latitude && item.longitude && (
         <MapView

@@ -23,15 +23,19 @@ const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const HomeHeader = ({ navigation, route }) => ({
+  header: () => <AppHeader navigation={navigation} title="Home" />,
+});
+
+const ProfileHeader = ({ navigation, route }) => ({
   header: () => (
     <AppHeader
-      navigation={navigation}
-      title="Home"
-      rightComponent={{
-        icon: "person-circle-outline",
-        color: "#fff",
-        onPress: () => navigation.navigate("Profile"),
+      leftComponent={{
+        icon: "arrow-back",
+        onPress: () => navigation.goBack(),
       }}
+      navigation={navigation}
+      previous={route.name !== "HomeScreen"}
+      title="profile"
     />
   ),
 });
@@ -43,6 +47,18 @@ const HomeStack = () => {
         name="HomeScreen"
         component={HomeScreen}
         options={({ navigation, route }) => HomeHeader({ navigation, route })}
+      />
+      <Stack.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={({ navigation, route }) =>
+          ProfileHeader({ navigation, route })
+        }
+      />
+      <Stack.Screen
+        name="MapScreen"
+        component={MapScreen}
+        options={({ navigation, route }) => MapHeader({ navigation, route })}
       />
     </Stack.Navigator>
   );
