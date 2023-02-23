@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, StyleSheet, Text, Animated, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Animated,
+  Image,
+  ScrollView,
+} from "react-native";
 import MapView, { Polyline, Marker } from "react-native-maps";
 import { decode } from "@mapbox/polyline";
 import { Input, Button } from "@rneui/base";
@@ -105,11 +112,9 @@ const RoutePlanScreen = () => {
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
         const itinerary = json.data.plan.itineraries[0];
         const legs = itinerary.legs;
         const distance = legs.reduce((sum, leg) => sum + leg.distance, 0);
-        console.log(`Total distance: ${distance} meters`);
 
         const legGeometry = json.data.plan.itineraries[0].legs[0].legGeometry;
         console.log(legGeometry);
@@ -135,7 +140,7 @@ const RoutePlanScreen = () => {
   const fadeIn = () => {
     Animated.timing(opacityValue, {
       toValue: 1,
-      duration: 1000,
+      duration: 700,
       useNativeDriver: true,
     }).start();
   };
@@ -146,62 +151,72 @@ const RoutePlanScreen = () => {
   }, [routeCoordinates]);
 
   return (
-    <View style={{ flex: 1 }}>
-      <Image
-        source={require("../assets/bg2.jpeg")}
-        style={styles.backgroundImage}
-      />
-      <View style={styles.search}>
-        <View style={styles.inputs}>
-          <Input
-            style={styles.input}
-            placeholder="Start location"
-            value={startLocation}
-            onChangeText={setStartLocation}
-          />
-          <Input
-            style={styles.input}
-            placeholder="End location"
-            value={endLocation}
-            onChangeText={setEndLocation}
+    <ScrollView>
+      <View style={{ flex: 1 }}>
+        <Image
+          source={require("../assets/bg2.jpeg")}
+          style={styles.backgroundImage}
+        />
+        <View style={styles.search}>
+          <View style={styles.inputs}>
+            <Input
+              style={styles.input}
+              placeholder="Start location"
+              value={startLocation}
+              onChangeText={setStartLocation}
+            />
+            <Input
+              style={styles.input}
+              placeholder="End location"
+              value={endLocation}
+              onChangeText={setEndLocation}
+            />
+          </View>
+          <Button
+            title="Search"
+            buttonStyle={styles.button}
+            onPress={handleSearch}
           />
         </View>
-        <Button
-          title="Search"
-          buttonStyle={styles.button}
-          onPress={handleSearch}
-        />
+
+        <Animated.View style={[styles.tripInfo, { opacity: opacityValue }]}>
+          <Text style={styles.heading}>
+            {`Journey from ${animationFrom} to ${animationTo}\n`}
+            {`Distance: ${routeCoordinates.length / 100} km`}
+          </Text>
+        </Animated.View>
+        <View style={{ flex: 1 }}>
+          <MapView
+            style={{
+              flex: 1,
+              borderWidth: 1,
+              borderColor: "green",
+              height: 400,
+            }}
+            initialRegion={{
+              latitude: 60.17,
+              longitude: 24.94,
+              latitudeDelta: 0.05,
+              longitudeDelta: 0.05,
+            }}
+          >
+            {toLocation && (
+              <Marker coordinate={toLocation} title="End location" />
+            )}
+            {fromLocation && (
+              <Marker coordinate={fromLocation} title="Start location" />
+            )}
+            {routeCoordinates.length > 0 && (
+              <Polyline
+                coordinates={routeCoordinates}
+                strokeColor="#FF0000"
+                strokeWidth={4}
+              />
+            )}
+          </MapView>
+        </View>
       </View>
-
-      <Animated.View style={[styles.tripInfo, { opacity: opacityValue }]}>
-        <Text style={styles.heading}>
-          {`Journey from ${animationFrom} to ${animationTo}\n`}
-          {`Distance: ${routeCoordinates.length / 100} km`}
-        </Text>
-      </Animated.View>
-
-      <MapView
-        style={{ flex: 1, borderWidth: 1, borderColor: "green" }}
-        initialRegion={{
-          latitude: 60.17,
-          longitude: 24.94,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
-        }}
-      >
-        {toLocation && <Marker coordinate={toLocation} title="End location" />}
-        {fromLocation && (
-          <Marker coordinate={fromLocation} title="Start location" />
-        )}
-        {routeCoordinates.length > 0 && (
-          <Polyline
-            coordinates={routeCoordinates}
-            strokeColor="#FF0000"
-            strokeWidth={4}
-          />
-        )}
-      </MapView>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -209,11 +224,12 @@ const styles = StyleSheet.create({
   inputs: {
     flexDirection: "row",
     width: 200,
+    paddingRight: 20,
   },
   input: {
     flex: 1,
     borderWidth: 1,
-    margin: 10,
+    margin: 2,
     padding: 5,
     borderRadius: 20,
     borderColor: "green",
@@ -221,11 +237,11 @@ const styles = StyleSheet.create({
   },
   tripInfo: {
     backgroundColor: "#03C03C",
-    height: 100,
+    height: 60,
     borderRadius: 15,
     width: "80%",
     alignSelf: "center",
-    marginVertical: 10,
+    marginVertical: 2,
     borderWidth: 2,
     borderColor: "white",
     alignItems: "center",
@@ -238,18 +254,16 @@ const styles = StyleSheet.create({
   },
   heading: {
     color: "white",
-    fontSize: 18,
+    fontSize: 16,
     alignSelf: "center",
     fontWeight: "bold",
-    marginBottom: 20,
-    marginTop: 20,
     textShadowColor: "black",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 4,
     textAlign: "center",
   },
   search: {
-    marginTop: 120,
+    marginTop: 110,
     padding: 10,
   },
   button: {

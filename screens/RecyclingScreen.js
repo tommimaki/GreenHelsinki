@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   View,
   Image,
+  ScrollView,
+  Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -14,6 +16,7 @@ import TouchableScale from "react-native-touchable-scale";
 
 const RecyclingScreen = () => {
   const [recyclingCenters, setRecyclingCenters] = useState([]);
+
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -33,45 +36,41 @@ const RecyclingScreen = () => {
     navigation.navigate("MapScreen", { item });
   };
 
-  const renderItem = ({ item }) => {
-    return (
-      <ListItem
-        onPress={() => handleItemPress(item)}
-        Component={TouchableScale}
-        friction={90}
-        tension={100}
-        activeScale={0.95}
-        containerStyle={styles.containerStyle}
-      >
-        <ListItem.Content style={{ paddingVertical: 0 }}>
-          <ListItem.Title style={styles.title}>{item.name_fi}</ListItem.Title>
-          <ListItem.Subtitle style={styles.address}>
-            {item.street_address_fi}, {item.address_zip}
-          </ListItem.Subtitle>
-
-          <Text style={styles.see}>See on map</Text>
-        </ListItem.Content>
-      </ListItem>
-    );
-  };
-
   return (
-    <View style={styles.container}>
-      <Image
-        source={require("../assets/bg.jpeg")}
-        style={styles.backgroundImage}
-      />
-      <View style={styles.content}>
-        <View style={styles.headingcontainer}>
-          <Text style={styles.heading}>Find Recycled Gems Here</Text>
+    <ScrollView>
+      <View style={styles.container}>
+        {/* <Image
+          source={require("../assets/bg2.jpeg")}
+          style={styles.backgroundImage}
+        /> */}
+        <View style={styles.content}>
+          <View style={styles.headingcontainer}>
+            <Text style={styles.heading}>Find Recycled Gems Here</Text>
+          </View>
+          {recyclingCenters.map((item) => (
+            <ListItem
+              key={item.id}
+              onPress={() => handleItemPress(item)}
+              Component={TouchableScale}
+              friction={90}
+              tension={100}
+              activeScale={0.95}
+              containerStyle={styles.containerStyle}
+            >
+              <ListItem.Content style={{ paddingVertical: 0 }}>
+                <ListItem.Title style={styles.title}>
+                  {item.name_fi}
+                </ListItem.Title>
+                <ListItem.Subtitle style={styles.address}>
+                  {item.street_address_fi}, {item.address_zip}
+                </ListItem.Subtitle>
+                <Text style={styles.see}>See on map</Text>
+              </ListItem.Content>
+            </ListItem>
+          ))}
         </View>
-        <FlatList
-          data={recyclingCenters}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    marginTop: 100,
+    marginTop: 80,
   },
   headingcontainer: {
     marginVertical: 10,
@@ -100,11 +99,11 @@ const styles = StyleSheet.create({
   },
   heading: {
     color: "white",
-    fontSize: 30,
+    fontSize: 20,
     alignSelf: "center",
     fontWeight: "bold",
-    marginBottom: 20,
-    marginTop: 20,
+    marginBottom: 10,
+    marginTop: 10,
     textShadowColor: "black",
     textShadowOffset: { width: 5, height: 3 },
     textShadowRadius: 4,

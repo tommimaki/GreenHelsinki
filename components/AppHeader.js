@@ -36,7 +36,6 @@ export default function AppHeader({ navigation, previous, title }) {
         left: 0,
         right: 0,
         zIndex: 1,
-        height: 100,
         paddingBottom: 5,
         elevation: 10, // add box shadow
         shadowColor: "black", // add box shadow

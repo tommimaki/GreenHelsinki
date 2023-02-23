@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
 
   swiper: {
-    marginTop: 100,
+    marginTop: 50,
     height: 200,
   },
   image: {

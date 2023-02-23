@@ -1,60 +1,155 @@
-import React from "react";
-import { View, Text, StyleSheet, Button, Image } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Modal,
+} from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import { auth, db } from "../firebase/firebase";
-import { ref, push } from "firebase/database";
-import { FeaturedTile } from "@rneui/themed/dist/Tile";
+import { ref, push, onValue } from "firebase/database";
 
 const MapScreen = ({ route }) => {
   const { item } = route.params;
   const navigation = useNavigation();
+  const [favorites, setFavorites] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [duplicateItem, setDuplicateItem] = useState(null);
+
+  function fetchFavorites() {
+    const user = auth.currentUser;
+    const itemsRef = ref(db, `favorites/${user.uid}`);
+    onValue(
+      itemsRef,
+      (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          const favoritesArray = [];
+          Object.entries(data).forEach(([key, { title, ...item }]) => {
+            favoritesArray.push({
+              title: title,
+              key: key,
+              ...item,
+            });
+          });
+
+          setFavorites(favoritesArray);
+        }
+      },
+      (error) => {
+        console.log("onValue error:", error);
+      }
+    );
+  }
+  useEffect(() => {
+    fetchFavorites();
+  }, []);
 
   const saveItemToFavorites = () => {
-    console.log("added item");
+    favorites.forEach((favorite) => {
+      console.log(favorite.name_fi);
+    });
+    const isItemInFavorites = favorites.some(
+      (favorite) => favorite.name_fi === item.name_fi
+    );
+    if (isItemInFavorites) {
+      setDuplicateItem(item);
+      setModalVisible(true);
+
+      console.log("Item is already in favorites.");
+      return;
+    }
     const user = auth.currentUser;
     const fref = ref(db, `favorites/${user.uid}`);
+    console.log("added item" + item.name_fi);
     push(fref, item);
   };
 
-  return (
-    <View style={styles.container}>
-      <Image
-        source={require("../assets/bg2.jpeg")}
-        style={styles.backgroundImage}
-      />
-
-      <View style={styles.infoContainer}>
-        {item.name_fi && <Text style={styles.title}>{item.name_fi}</Text>}
-        {item.street_address_fi && item.address_city_fi && (
-          <Text style={styles.address}>
-            {item.street_address_fi}, {item.address_city_fi}
-          </Text>
-        )}
-
-        {item.desc_en && <Text style={styles.address}> {item.desc_en} </Text>}
-        <Button title="Add to favorites" onPress={saveItemToFavorites} />
+  const DuplicateItemModal = ({ visible, item, onClose }) => {
+    return visible && item ? (
+      <View style={styles.modal}>
+        <Modal visible={visible} animationType="slide">
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>
+              The item "{item.name_fi}" is already in your favorites list.
+            </Text>
+            <TouchableOpacity style={styles.modalButton} onPress={onClose}>
+              <Text style={styles.modalButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
       </View>
-      {item.latitude && item.longitude && (
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: item.latitude,
-            longitude: item.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-          }}
-        >
-          <Marker
-            coordinate={{
+    ) : null;
+  };
+
+  return (
+    <ScrollView>
+      <View style={styles.container}>
+        <Image
+          source={require("../assets/bg2.jpeg")}
+          style={styles.backgroundImage}
+        />
+
+        <View style={styles.infoContainer}>
+          {item.name_fi && <Text style={styles.title}>{item.name_fi}</Text>}
+          {item.street_address_fi && item.address_city_fi && (
+            <Text style={styles.address}>
+              {item.street_address_fi}, {item.address_city_fi}
+            </Text>
+          )}
+
+          {item.desc_en && <Text style={styles.address}> {item.desc_en} </Text>}
+          {item.picture_url && (
+            <Image source={{ uri: item.picture_url }} style={styles.image} />
+          )}
+          <View style={styles.add}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={saveItemToFavorites}
+            >
+              <MaterialIcons
+                name="star"
+                size={24}
+                color="white"
+                style={styles.icon}
+              />
+              <Text style={styles.buttonText}>Add to favorites</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <DuplicateItemModal
+          visible={modalVisible}
+          item={duplicateItem}
+          onClose={() => setModalVisible(false)}
+        />
+
+        {item.latitude && item.longitude && (
+          <MapView
+            style={styles.map}
+            initialRegion={{
               latitude: item.latitude,
               longitude: item.longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
             }}
-          />
-        </MapView>
-      )}
-    </View>
+          >
+            <Marker
+              coordinate={{
+                latitude: item.latitude,
+                longitude: item.longitude,
+              }}
+            />
+          </MapView>
+        )}
+      </View>
+    </ScrollView>
   );
 };
 
@@ -64,10 +159,40 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  image: {
+    width: "100%",
+    height: 200,
+    marginTop: 8,
+    resizeMode: "cover",
+  },
+  add: {
+    alignItems: "center",
+    marginTop: 10,
+    borderColor: "white",
+    borderWidth: 2,
+  },
+  button: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#03C03C",
+    padding: 10,
+    borderRadius: 8,
+    width: 200,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+    marginLeft: 10,
+  },
+  icon: {
+    marginRight: 10,
+  },
+
   infoContainer: {
     width: "90%",
     marginHorizontal: 8,
-    marginTop: 120,
+    marginTop: 100,
     backgroundColor: "#03C03C",
     padding: 16,
     borderBottomRightRadius: 15,
@@ -90,17 +215,17 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     color: "white",
     textShadowColor: "black",
-    textShadowOffset: { width: 3, height: 3 },
-    textShadowRadius: 2,
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
   },
   address: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 8,
     color: "white",
     fontWeight: "bold",
     textShadowColor: "black",
     textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 5,
+    textShadowRadius: 1,
   },
   map: {
     flex: 1,
@@ -121,6 +246,35 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     opacity: 1,
+  },
+  modal: {
+    height: 200, // set the height of the modal container
+    width: "80%", // set the width of the modal container
+    alignSelf: "center", // center the modal horizontally
+  },
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginVertical: 20,
+  },
+  modalButton: {
+    backgroundColor: "#2196F3",
+    padding: 10,
+    borderRadius: 5,
+  },
+  modalButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

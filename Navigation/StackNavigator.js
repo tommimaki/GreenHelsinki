@@ -194,8 +194,9 @@ export default function Nav() {
     <Tab.Navigator
       barStyle={{
         backgroundColor: "#03C03C",
-        borderWidth: 1,
+        borderTopWidth: 1,
         borderColor: "white",
+        height: 50,
       }}
       inactiveColor="white"
       activeColor="green"
@@ -213,7 +214,7 @@ export default function Nav() {
           }
 
           // You can return any component that you like here!
-          return <Ionicons name={iconName} size={30} color={color} />;
+          return <Ionicons name={iconName} size={20} color={color} />;
         },
       })}
     >
