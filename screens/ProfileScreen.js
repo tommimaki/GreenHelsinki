@@ -12,6 +12,7 @@ import { db, auth } from "../firebase/firebase";
 import { ref, push, onValue, remove } from "firebase/database";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { signOut } from "firebase/auth";
 
 function ProfileScreen({ navigation }) {
   const [user, setUser] = useState(null);
@@ -91,6 +92,12 @@ function ProfileScreen({ navigation }) {
           <AntDesign name="logout" size={24} color="#262626" />
         </TouchableOpacity>
       </View>
+      <View style={styles.text}>
+        <Text style={styles.addyText}>
+          Your favorited locations are saved here!
+        </Text>
+        <Text style={styles.addressText}>Long press to delete items</Text>
+      </View>
       <FlatList
         style={styles.FlatList}
         keyExtractor={(item) => item.key}
@@ -106,7 +113,7 @@ function ProfileScreen({ navigation }) {
             >
               <View style={styles.listItem}>
                 <Text style={styles.addyText}> {item.name_en}</Text>
-                <Text style={styles.addyText}>{item.street_address_en}</Text>
+                <Text style={styles.addressText}>{item.street_address_en}</Text>
                 <Text style={styles.showOnMapText}>Show on Map</Text>
               </View>
             </TouchableOpacity>
@@ -122,6 +129,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FAFAFA",
+  },
+  text: {
+    marginTop: 10,
+    alignSelf: "center",
   },
   profileContainer: {
     marginTop: 120,
@@ -167,15 +178,22 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   listItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 20,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    paddingVertical: 20,
+    paddingHorizontal: 30,
   },
   addyText: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#262626",
+    marginBottom: 10,
+  },
+  addressText: {
+    fontSize: 14,
+    color: "#262626",
+    marginBottom: 10,
   },
   showOnMapText: {
     fontSize: 14,

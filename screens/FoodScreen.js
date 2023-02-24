@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    marginTop: 80,
+    marginTop: "25%",
   },
   headingcontainer: {
     marginVertical: 10,

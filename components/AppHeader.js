@@ -1,6 +1,5 @@
 import React from "react";
 import { Header, Icon } from "@rneui/themed";
-import ProfileStackNavigator from "../Navigation/ProfileStack";
 
 export default function AppHeader({ navigation, previous, title }) {
   return (

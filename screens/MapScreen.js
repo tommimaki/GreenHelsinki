@@ -92,11 +92,6 @@ const MapScreen = ({ route }) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Image
-          source={require("../assets/bg2.jpeg")}
-          style={styles.backgroundImage}
-        />
-
         <View style={styles.infoContainer}>
           {item.name_fi && <Text style={styles.title}>{item.name_fi}</Text>}
           {item.street_address_fi && item.address_city_fi && (
@@ -192,7 +187,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     width: "90%",
     marginHorizontal: 8,
-    marginTop: 100,
+    marginTop: "30%",
     backgroundColor: "#03C03C",
     padding: 16,
     borderBottomRightRadius: 15,
@@ -230,7 +225,7 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
     width: "100%",
-    height: 400,
+    height: 500,
     borderTopWidth: 2,
     borderTopColor: "black",
     borderWidth: 1,

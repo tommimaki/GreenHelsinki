@@ -45,7 +45,10 @@ function SignUpScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.formContainer}>
         <View style={styles.logoContainer}>
-          <Image source={require("../assets/leaf.png")} style={styles.logo} />
+          <Image
+            source={require("../assets/greenlogo.jpeg")}
+            style={styles.logo}
+          />
         </View>
         <Text style={styles.header}>Sign Up!</Text>
         <View style={styles.inputContainer}>

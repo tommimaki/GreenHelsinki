@@ -7,6 +7,7 @@ import {
   TextInput,
   Text,
   View,
+  Button,
 } from "react-native";
 import { auth } from "../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -41,7 +42,10 @@ function SignInScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.formContainer}>
         <View style={styles.logoContainer}>
-          <Image source={require("../assets/leaf.png")} style={styles.logo} />
+          <Image
+            source={require("../assets/greenlogo.jpeg")}
+            style={styles.logo}
+          />
         </View>
         <Text style={styles.header}>Sign In</Text>
         <View style={styles.inputContainer}>
@@ -61,9 +65,10 @@ function SignInScreen({ navigation }) {
             />
           </View>
         </View>
-        <Pressable style={styles.button} onPress={signIn}>
-          <Text style={styles.buttonText}>Sign In</Text>
-        </Pressable>
+
+        <View style={styles.button}>
+          <Button color="white" onPress={signIn} title="Sign in"></Button>
+        </View>
       </View>
       <Text style={styles.signUp}>
         Don't have an account?{" "}
@@ -121,6 +126,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 5,
     alignItems: "center",
+    color: "white",
   },
   buttonText: {
     color: "#FFFFFF",

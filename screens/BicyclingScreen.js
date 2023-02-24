@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
 
   titleContainer: {
-    marginTop: 100,
+    marginTop: "25%",
     backgroundColor: "rgba(3, 192, 60, 0.7)",
     borderRadius: 10,
     padding: 10,

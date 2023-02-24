@@ -6,11 +6,14 @@ import {
   Animated,
   Image,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import MapView, { Polyline, Marker } from "react-native-maps";
 import { decode } from "@mapbox/polyline";
 import { Input, Button } from "@rneui/base";
 import { GEOCODING_API } from "@env";
+import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
+
 const RoutePlanScreen = () => {
   const [routeCoordinates, setRouteCoordinates] = useState([]);
   const [startLocation, setStartLocation] = useState("");
@@ -21,10 +24,6 @@ const RoutePlanScreen = () => {
   const opacityValue = useRef(new Animated.Value(0)).current;
   const [animationTo, setAnimationTo] = useState("");
   const [animationFrom, setAnimationFrom] = useState("");
-
-  // const [inputHeights, setInputHeight] = useState(
-  //   new Animated.Value(100)
-  // ).current;
 
   // haetaan geolocation data
   const geocode = (address) => {
@@ -153,10 +152,6 @@ const RoutePlanScreen = () => {
   return (
     <ScrollView>
       <View style={{ flex: 1 }}>
-        <Image
-          source={require("../assets/bg2.jpeg")}
-          style={styles.backgroundImage}
-        />
         <View style={styles.search}>
           <View style={styles.inputs}>
             <Input
@@ -185,35 +180,37 @@ const RoutePlanScreen = () => {
             {`Distance: ${routeCoordinates.length / 100} km`}
           </Text>
         </Animated.View>
-        <View style={{ flex: 1 }}>
-          <MapView
-            style={{
-              flex: 1,
-              borderWidth: 1,
-              borderColor: "green",
-              height: 400,
-            }}
-            initialRegion={{
-              latitude: 60.17,
-              longitude: 24.94,
-              latitudeDelta: 0.05,
-              longitudeDelta: 0.05,
-            }}
-          >
-            {toLocation && (
-              <Marker coordinate={toLocation} title="End location" />
-            )}
-            {fromLocation && (
-              <Marker coordinate={fromLocation} title="Start location" />
-            )}
-            {routeCoordinates.length > 0 && (
-              <Polyline
-                coordinates={routeCoordinates}
-                strokeColor="#FF0000"
-                strokeWidth={4}
-              />
-            )}
-          </MapView>
+        <View style={{ width: vw(100), height: vh(70) }}>
+          <View style={{ flex: 1 }}>
+            <MapView
+              style={{
+                flex: 1,
+                borderWidth: 1,
+                borderColor: "green",
+                height: "100%",
+              }}
+              initialRegion={{
+                latitude: 60.17,
+                longitude: 24.94,
+                latitudeDelta: 0.05,
+                longitudeDelta: 0.05,
+              }}
+            >
+              {toLocation && (
+                <Marker coordinate={toLocation} title="End location" />
+              )}
+              {fromLocation && (
+                <Marker coordinate={fromLocation} title="Start location" />
+              )}
+              {routeCoordinates.length > 0 && (
+                <Polyline
+                  coordinates={routeCoordinates}
+                  strokeColor="#FF0000"
+                  strokeWidth={4}
+                />
+              )}
+            </MapView>
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -223,8 +220,8 @@ const RoutePlanScreen = () => {
 const styles = StyleSheet.create({
   inputs: {
     flexDirection: "row",
-    width: 200,
-    paddingRight: 20,
+    width: 180,
+    marginLeft: "4%",
   },
   input: {
     flex: 1,

@@ -39,10 +39,6 @@ const RecyclingScreen = () => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        {/* <Image
-          source={require("../assets/bg2.jpeg")}
-          style={styles.backgroundImage}
-        /> */}
         <View style={styles.content}>
           <View style={styles.headingcontainer}>
             <Text style={styles.heading}>Find Recycled Gems Here</Text>
@@ -79,7 +75,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    marginTop: 80,
+    marginTop: "25%",
   },
   headingcontainer: {
     marginVertical: 10,
