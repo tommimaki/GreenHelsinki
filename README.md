@@ -3,6 +3,10 @@
 Sustainable Travel to Helsinki - React Native Mobile App
 This is a React Native mobile app for sustainable travel to Helsinki, built with Firebase Authentication, Google Geocoding, Firebase Realtime Database, helsinki services apis and responsive styling.
 
+![Screenshot 2023-02-24 at 12 17 55](https://user-images.githubusercontent.com/74586216/221153788-fcc38746-0863-44db-b2fb-3555f7d350a6.png)
+
+![Screenshot 2023-02-24 at 12 17 23](https://user-images.githubusercontent.com/74586216/221153812-a4dd2437-5644-4792-8b9e-3fb1280a6c92.png)
+
 Description
 The Sustainable Travel to Helsinki app is designed to help users plan sustainable trips to Helsinki by providing information on sustainable travel options, such as public transportation, biking, and walking, and suggesting eco-friendly activities and accommodations. The app uses Firebase Authentication to handle user authentication and authorization, Google Geocoding to convert addresses into latitude and longitude coordinates, and Firebase Realtime Database to store user data.
 
