@@ -19,7 +19,7 @@ The Sustainable Travel to Helsinki app is designed to help users plan sustainabl
 
 ### Installation
 To run the app on your local machine, you need to have the following tools installed:
-* Bullet list
+
 * Node.js
 * React Native CLI
 * Android Studio or Xcode (depending on whether you want to run the app on an Android or iOS device)
