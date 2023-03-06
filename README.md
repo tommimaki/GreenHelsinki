@@ -36,7 +36,7 @@ To run the app on your local machine, you need to have the following tools insta
 * Start the app: npm run android or npm run ios (depending on whether you want to run the app on an Android or iOS device)
 
 ### Usage
-When you run the app, you will see a login screen where you can either create a new account or sign in with an existing one. After logging in, you will be taken to the main screen of the app, where you can input your trip start and end locations and select your preferred mode of transportation (public transportation, biking, or walking). The app will then calculate the distance and estimated travel time between your trip start and end locations and suggest eco-friendly activities and accommodations in Helsinki based on your preferences.
+When you run the app, you will see a login screen where you can either create a new account or sign in with an existing one. After logging in, you will be taken to the main screen of the app, You have a screen for restaurants, some flea shops and city bike locations, and route maps where you can input your trip start and end locations and select your preferred mode of transportation (public transportation, biking, or walking). The app will then calculate the distance and estimated travel time between your trip start and end locations.  Also suggest eco-friendly activities in Helsinki based on your preferences.
 
 You can save your trip data to Firebase Realtime Database by clicking the "Save Trip" button. To view your saved trips, click the "My Trips" button in the navigation bar. You can delete a saved trip by swiping left on the trip card and clicking the "Delete" button.
 
