@@ -10,12 +10,12 @@ restaurant preview             |  bicycling route
 The Sustainable Travel to Helsinki app is designed to help users plan sustainable trips to Helsinki by providing information on sustainable travel options, such as public transportation, biking, and walking, and suggesting eco-friendly activities and accommodations. The app uses Firebase Authentication to handle user authentication and authorization, Google Geocoding to convert addresses into latitude and longitude coordinates, and Firebase Realtime Database to store user data.
 
 ### Features
--User authentication and authorization using Firebase Authentication
--Input and validation of trip start and end locations using Google Geocoding
--Calculation of the distance and estimated travel time between trip start and end locations using Google Distance Matrix API
--Suggestions of eco-friendly activities and accommodations in Helsinki
--Saving and retrieving user trip data to and from Firebase Realtime Database
--Responsive styling for different device sizes and orientations
+* User authentication and authorization using Firebase Authentication
+* Input and locationdata of trip start and end locations using Google Geocoding api
+* Calculation of the distance between trip start and end using digitransit/hsl api
+* Suggestions of eco-friendly activities and accommodations in Helsinki
+* Saving and retrieving locations of shops and restaurants as favorites in Firebase Realtime Database
+* Responsive styling for different device sizes and orientations
 
 ### Installation
 To run the app on your local machine, you need to have the following tools installed:
